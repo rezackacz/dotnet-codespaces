@@ -2,7 +2,7 @@
 namespace HallwayInfoPanelGMH {
   internal class Program {
     static void Main(string[] args) {
-      Console.WriteLine("Hello, World!");
+      HTMLRenderer clasroomRenderer = new HTMLRenderer(HTMLRenderer.DisplayTypes.CLASSROOMS);
     }
   }
 }

@@ -5,6 +5,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;RPi</Configurations>
+    <Platforms>AnyCPU;ARM64</Platforms>
   </PropertyGroup>
 
 </Project>
