@@ -9,17 +9,13 @@ namespace HallwayInfoPanelGMH {
 
     int id;
     string dispName;
-    string currentPeople;
-    string subject;
-    string currentTeacher;
+    public string currentPeople;
+    public string subject;
+    public string currentTeacher;
 
-    Classroom(int id, string dispName, string currentPeople, string subject, string currentTeacher) {
+    public Classroom(int id, string dispName) {
       this.id = id;
       this.dispName = dispName;
-      this.currentPeople = currentPeople;
-      this.subject = subject;
-      this.currentTeacher = currentTeacher;
-
     }
 
   }

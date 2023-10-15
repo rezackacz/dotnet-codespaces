@@ -19,9 +19,11 @@ namespace HallwayInfoPanelGMH {
 
     DisplayTypes type;
 
-    public HTMLRenderer(DisplayTypes type) {
+    public HTMLRenderer (Classroom[] classrooms) {
 
-      this.type = type;
+      this.type = DisplayTypes.CLASSROOMS;
+
+
 
       //TODO intialize the renderer to use different elements based on the type
 
