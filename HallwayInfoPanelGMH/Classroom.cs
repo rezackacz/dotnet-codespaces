@@ -18,5 +18,9 @@ namespace HallwayInfoPanelGMH {
       this.dispName = dispName;
     }
 
+    public void render(){
+      return;
+    }
+
   }
 }
