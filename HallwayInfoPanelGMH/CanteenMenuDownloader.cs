@@ -1,26 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System.Xml.Serialization;
+﻿using System.Linq;
 using System.Xml.Linq;
-using System.Data.Common;
-using System.Runtime.CompilerServices;
 
 namespace HallwayInfoPanelGMH {
-  internal class CanteenMenuDownloader {
+  public class CanteenMenuDownloader {
 
     private string URL;
     private XDocument xml;
+    private XElement today;
+
+    public string PageTitle;
 
     public CanteenMenuDownloader(string URL) {
       this.URL = URL;
 
-      this.xml = XDocument.Load(URL);
+      try {
+        this.xml = XDocument.Load(URL);
+        XElement today = xml.Element("den");
+      } catch (Exception e) {
+        Console.Error.WriteLine("Couldn't load canteen's menu");
+        PageTitle = "Jídelníček nemohl být načten.";
+        Console.Error.WriteLine(e.Message);
+      } finally {
+        xml = XDocument.Load(URL);
+        this.today = xml.Element("den");
+      }
+      string date = DateTime.Now.ToString("dd-MM-yyyy");
 
-      XNode jidenicek = (XElement)xml.FirstNode;
+      if (!(today.Attribute("datum").Value.Equals(date))) {
+        PageTitle = "Dnešní jídelníček neexistuje v databázi.";
+      } else {
+        PageTitle = "Jídelníček";
+      }
+
     }
 
     public class Today {
@@ -33,10 +44,7 @@ namespace HallwayInfoPanelGMH {
     }
 
 
-    public static void Main(string[] args) {
-      CanteenMenuDownloader downloader = new CanteenMenuDownloader("https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059");
-      return;
-    }
+
   }
 }
 
