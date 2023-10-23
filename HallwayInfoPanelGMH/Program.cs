@@ -6,10 +6,10 @@ namespace HallwayInfoPanelGMH {
       try {
         string arg0 = args[0];
       } catch {
-        Console.WriteLine("Usage: HallwayInfoPanelGMH.exe {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}");
+        Console.Error.WriteLine("Usage: HallwayInfoPanelGMH.exe {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}");
         return;
       }
-      if (args[0] == "--help" || args[0] == "-h") { Console.WriteLine("Usage: HallwayInfoPanelGMH.exe {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}"); return; }
+      if (args[0] == "--help" || args[0] == "-h") { Console.Error.WriteLine("Usage: HallwayInfoPanelGMH.exe {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}"); return; }
       int classroom_count;
 
       switch (args[0]) {
