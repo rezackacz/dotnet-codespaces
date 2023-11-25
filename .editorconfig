@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0210: Převést na příkazy nejvyšší úrovně
+csharp_style_prefer_top_level_statements = false

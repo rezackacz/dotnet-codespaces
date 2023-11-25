@@ -13,15 +13,26 @@ namespace HallwayInfoPanelGMH {
     private string body;
     private const string htmlEnding = "</body></html>";
 
+    private CanteenMenuDownloader canteenMenuDownloader;
+
+    private string pageTitle;
+
     public enum DisplayTypes {
-      CLASSROOMS, INFO, WARNING
+      INFO, CLASSROOM_LIST, CANTEEN_MENU, WARNING, WEATHER, JOKE
     }
 
-    DisplayTypes type;
+    public DisplayTypes type;
 
-    public HTMLRenderer(Classroom[] classrooms) {
+    public HTMLRenderer(DisplayTypes typ, string pageTitle, string body) {
+        this.pageTitle = pageTitle;
+        this.body = body;
 
-      this.type = DisplayTypes.CLASSROOMS;
+      }
+    
+
+    public HTMLRenderer(Classroom[] classrooms, int classroom_count) {
+
+      this.type = DisplayTypes.CLASSROOM_LIST;
 
 
 
@@ -29,8 +40,25 @@ namespace HallwayInfoPanelGMH {
 
     }
 
-    public void Render() {
+    public HTMLRenderer(CanteenMenuDownloader canteenMenuDownloader) {
+      this.type = DisplayTypes.CANTEEN_MENU;
+      this.canteenMenuDownloader = canteenMenuDownloader;
 
+      //TODO intialize the renderer to format a table with today's menu in the canteen
+
+
+
+    }
+
+    public void Render() {
+      switch (type) {
+        case DisplayTypes.INFO: { break; }
+        case DisplayTypes.CLASSROOM_LIST: { break; }
+        case DisplayTypes.CANTEEN_MENU: { break; }
+        case DisplayTypes.WARNING: { break; }
+        case DisplayTypes.WEATHER: { break; }
+        case DisplayTypes.JOKE: { break; }
+      }
     }
   }
 }
