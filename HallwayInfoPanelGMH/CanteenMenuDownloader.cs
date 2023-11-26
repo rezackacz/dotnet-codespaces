@@ -5,6 +5,18 @@ namespace HallwayInfoPanelGMH
 {
   public class CanteenMenuDownloader
   {
+    /********************************
+    věci které jsou relevantní v této classe jsou tady nahoře.
+    (myslím těch 5 objektů Jidlo)
+    co je který zač je snad jasné
+    ********************************/
+
+    Jidlo polevka;
+    Jidlo jidlo1;
+    Jidlo jidlo2;
+    Jidlo jidlo3;
+    Jidlo doplnek;
+
 
     private string URL;
     private XDocument xml;
@@ -35,22 +47,26 @@ namespace HallwayInfoPanelGMH
       }
       string date = DateTime.Now.ToString("dd-MM-yyyy");
 
-      if (!(today.Attribute("datum").Value.Equals(date)))
-      {
+      if (!(today.Attribute("datum").Value.Equals(date))) {
         PageTitle = "Dnešní jídelníček neexistuje v databázi.";
         Console.Error.WriteLine("Error: today's menu doesn't exist in database.");
 
-      }
-      else
-      {
-        PageTitle = "Jídelníček";
-        dnesniJidla.Add(new Jidlo(2));
+      } else {
+        Jidlo polevka = vyfiltruj(today, "Polévka "); //soup gets the ID 0, because WHY THE F*CK NOT
+        //pokud tyhle komentáře čtete během opravování této práce tak je prosím neřešte, nemám rád filtrování XML
+
 
       }
 
     }
 
-
+    private static Jidlo vyfiltruj(XElement today, string druh) {
+      Jidlo vysledek = new Jidlo();
+      XElement xElement = today.Elements("jidlo").First(food => food.Attribute("druh").Value == druh);
+      vysledek.druh = druh;
+      vysledek.nazev = xElement.Attribute("nazev").Value;
+      return vysledek;
+    }
 
 
 
@@ -60,9 +76,9 @@ namespace HallwayInfoPanelGMH
       public string nazev { get; set; }
       public string druh { get; set; }
 
-      public Jidlo(int ID)
+      public Jidlo()
       {
-        this.ID = ID;
+        
       }
 
 
