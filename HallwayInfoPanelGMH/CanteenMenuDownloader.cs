@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace HallwayInfoPanelGMH
@@ -20,7 +21,7 @@ namespace HallwayInfoPanelGMH
 
     private string URL;
     private XDocument xml;
-    private XElement today;
+    private XElement? today;
 
     public string PageTitle;
     public List<Jidlo> dnesniJidla = new List<Jidlo>();
@@ -32,7 +33,7 @@ namespace HallwayInfoPanelGMH
       try
       {
         this.xml = XDocument.Load(URL);
-        XElement today = xml.Element("den");
+        XElement? today = xml.Element("den");
       }
       catch (Exception e)
       {
@@ -47,25 +48,50 @@ namespace HallwayInfoPanelGMH
       }
       string date = DateTime.Now.ToString("dd-MM-yyyy");
 
-      if (!(today.Attribute("datum").Value.Equals(date))) {
+      if (!today.Attribute("datum").Value.Equals(date))
+      {
         PageTitle = "Dnešní jídelníček neexistuje v databázi.";
         Console.Error.WriteLine("Error: today's menu doesn't exist in database.");
+        this.polevka = new Jidlo("Něco se pokazilo", "Polévka");
+        this.jidlo1 = new Jidlo("Něco se pokazilo", "Oběd 1S");
+        this.jidlo2 = new Jidlo("Něco se pokazilo", "Oběd 2S");
+        this.jidlo3 = new Jidlo("Něco se pokazilo", "Oběd 3S");
+        this.doplnek = new Jidlo("Něco se pokazilo", "Doplněk");
+      }
+      else
+      {
+        this.PageTitle = "Dnešní jídelníček";
 
-      } else {
-        Jidlo polevka = vyfiltruj(today, "Polévka "); //soup gets the ID 0, because WHY THE F*CK NOT
-        //pokud tyhle komentáře čtete během opravování této práce tak je prosím neřešte, nemám rád filtrování XML
+        Jidlo jidloTemp = vyfiltruj(today, "Polévka ");
+        if (jidloTemp == null) this.polevka = new Jidlo("Není k dispozici", "Polévka"); else this.polevka = jidloTemp;
 
+        jidloTemp = vyfiltruj(today, "Oběd 1S ");
+        if (jidloTemp == null) this.jidlo1 = new Jidlo("Není k dispozici", "Oběd 1S"); else this.jidlo1 = jidloTemp;
 
+        jidloTemp = vyfiltruj(today, "Oběd 2S ");
+        if (jidloTemp == null) this.jidlo2 = new Jidlo("Není k dispozici", "Oběd 2S"); else this.jidlo2 = jidloTemp;
+
+        jidloTemp = vyfiltruj(today, "Oběd 3S ");
+        if (jidloTemp == null) this.jidlo3 = new Jidlo("Není k dispozici", "Oběd 3S"); else this.jidlo3 = jidloTemp;
+
+        jidloTemp = vyfiltruj(today, "Doplněk ");
+        if (jidloTemp == null) this.doplnek = new Jidlo("Není k dispozici", "Doplněk"); else this.doplnek = jidloTemp;
       }
 
     }
 
-    private static Jidlo vyfiltruj(XElement today, string druh) {
+    // Filters the given XElement based on the specified food type and returns the filtered result.
+    private static Jidlo vyfiltruj(XElement today, string druh)
+    {
       Jidlo vysledek = new Jidlo();
       XElement xElement = today.Elements("jidlo").First(food => food.Attribute("druh").Value == druh);
-      vysledek.druh = druh;
-      vysledek.nazev = xElement.Attribute("nazev").Value;
-      return vysledek;
+      if (xElement == null) { throw new FoodNotAvailableException("Jidlo " + druh + "se nepodarilo ziskat"); }
+      else
+      {
+        vysledek.druh = druh;
+        vysledek.nazev = xElement.Attribute("nazev").Value;
+        return vysledek;
+      }
     }
 
 
@@ -78,36 +104,35 @@ namespace HallwayInfoPanelGMH
 
       public Jidlo()
       {
-        
+        nazev = "default";
+        druh = "default";
       }
-
-
-
-    }
-
-    private string stahniJidlo(int cislo)
-    {
-      switch (cislo)
+      public Jidlo(string nazev, string druh)
       {
-        case 1:
-          today.Element("");
-          ;
-          return ("");
-
-        case 2:
-          return ("");
-
-        case 3:
-          return ("");
-
-        default:
-          return ("");
-
-
+        this.nazev = nazev;
+        this.druh = druh;
       }
+
+
+
     }
 
-  }
+    public void update()
+    {
+      
+    }
+    }
+
+  
+
+
+
+public class FoodNotAvailableException : Exception
+{
+  public FoodNotAvailableException() { }
+  public FoodNotAvailableException(string message) : base(message) { }
+  public FoodNotAvailableException(string message, Exception inner) : base(message, inner) { }
+
+
 }
-
-
+}
