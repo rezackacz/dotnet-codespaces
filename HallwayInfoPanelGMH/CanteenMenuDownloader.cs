@@ -76,7 +76,7 @@ namespace HallwayInfoPanelGMH
       download();
     }
    
-    public void download(){
+    private void download(){
       try
       {
         this.xml = XDocument.Load(URL);
