@@ -30,6 +30,53 @@ namespace HallwayInfoPanelGMH
     {
       this.URL = URL;
 
+      download();
+
+    }
+
+    // Filters the given XElement based on the specified food type and returns the filtered result.
+    private static Jidlo vyfiltruj(XElement today, string druh)
+    {
+      Jidlo vysledek = new Jidlo();
+      XElement xElement = today.Elements("jidlo").First(food => food.Attribute("druh").Value == druh);
+      if (xElement == null) { throw new FoodNotAvailableException("Jidlo " + druh + "se nepodarilo ziskat"); }
+      else
+      {
+        vysledek.druh = druh;
+        vysledek.nazev = xElement.Attribute("nazev").Value;
+        return vysledek;
+      }
+    }
+
+
+
+    public class Jidlo
+    {
+      public int ID;
+      public string nazev { get; set; }
+      public string druh { get; set; }
+
+      public Jidlo()
+      {
+        nazev = "default";
+        druh = "default";
+      }
+      public Jidlo(string nazev, string druh)
+      {
+        this.nazev = nazev;
+        this.druh = druh;
+      }
+
+
+
+    }
+
+    public void update()
+    {
+      download();
+    }
+   
+    public void download(){
       try
       {
         this.xml = XDocument.Load(URL);
@@ -77,51 +124,11 @@ namespace HallwayInfoPanelGMH
         jidloTemp = vyfiltruj(today, "Doplněk ");
         if (jidloTemp == null) this.doplnek = new Jidlo("Není k dispozici", "Doplněk"); else this.doplnek = jidloTemp;
       }
-
+    }
+   
+   
     }
 
-    // Filters the given XElement based on the specified food type and returns the filtered result.
-    private static Jidlo vyfiltruj(XElement today, string druh)
-    {
-      Jidlo vysledek = new Jidlo();
-      XElement xElement = today.Elements("jidlo").First(food => food.Attribute("druh").Value == druh);
-      if (xElement == null) { throw new FoodNotAvailableException("Jidlo " + druh + "se nepodarilo ziskat"); }
-      else
-      {
-        vysledek.druh = druh;
-        vysledek.nazev = xElement.Attribute("nazev").Value;
-        return vysledek;
-      }
-    }
-
-
-
-    public class Jidlo
-    {
-      public int ID;
-      public string nazev { get; set; }
-      public string druh { get; set; }
-
-      public Jidlo()
-      {
-        nazev = "default";
-        druh = "default";
-      }
-      public Jidlo(string nazev, string druh)
-      {
-        this.nazev = nazev;
-        this.druh = druh;
-      }
-
-
-
-    }
-
-    public void update()
-    {
-      
-    }
-    }
 
   
 
