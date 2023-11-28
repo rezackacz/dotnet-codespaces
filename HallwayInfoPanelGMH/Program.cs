@@ -49,7 +49,7 @@ namespace HallwayInfoPanelGMH {
 
       CanteenMenuDownloader jidloStahovac = new CanteenMenuDownloader("https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059");
 
-      
+      return;
 
 
     }

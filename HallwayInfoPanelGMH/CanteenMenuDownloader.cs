@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Xml.Resolvers;
 
 namespace HallwayInfoPanelGMH
 {
@@ -76,23 +77,11 @@ namespace HallwayInfoPanelGMH
       download();
     }
    
-    private void download(){
-      try
-      {
-        this.xml = XDocument.Load(URL);
-        XElement? today = xml.Element("den");
-      }
-      catch (Exception e)
-      {
-        Console.Error.WriteLine("Couldn't load canteen's menu");
-        PageTitle = "Jídelníček nemohl být načten.";
-        Console.Error.WriteLine(e.Message);
-      }
-      finally
-      {
-        xml = XDocument.Load(URL);
-        this.today = xml.Element("den");
-      }
+    private void download() {
+      this.xml = XDocument.Load(URL);
+      XElement xNjidelnicek = (XElement) xml.FirstNode;
+      this.today = (XElement)xNjidelnicek.FirstNode;
+
       string date = DateTime.Now.ToString("dd-MM-yyyy");
 
       if (!today.Attribute("datum").Value.Equals(date))

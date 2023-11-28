@@ -1,7 +1,8 @@
 {
   "profiles": {
     "HallwayInfoPanelGMH": {
-      "commandName": "Project"
+      "commandName": "Project",
+       "commandLineArgs": "prvni_patro"
     }
   }
 }
