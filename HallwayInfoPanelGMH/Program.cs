@@ -47,7 +47,9 @@ namespace HallwayInfoPanelGMH {
           break;
       }
 
-      CanteenMenuDownloader jidloStahovac = new CanteenMenuDownloader("https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059");
+      var jidloStahovac = new CanteenMenuDownloader("https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059");
+
+      var renderer = new HTMLRenderer(jidloStahovac);
 
       return;
 
