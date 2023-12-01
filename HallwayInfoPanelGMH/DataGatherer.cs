@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HallwayInfoPanelGMH {
   internal class BakaDataGatherer {
 
-    List<string> classroom_dispNames;
+    List<string> classroom_dispNames = new List<string>();
 
 
 

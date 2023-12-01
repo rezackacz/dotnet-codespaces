@@ -9,9 +9,9 @@ namespace HallwayInfoPanelGMH {
 
     public int id { get;}
     public string dispName { get;}
-    public string currentPeople {get;set;}
-    public string subject {get;set;}
-    public string currentTeacher {get;set;}
+    public string? currentPeople {get;set;}
+    public string? subject {get;set;}
+    public string? currentTeacher {get;set;}
 
     public Classroom(int id, string dispName) {
       this.id = id;
