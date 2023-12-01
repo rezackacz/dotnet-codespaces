@@ -7,20 +7,24 @@ using System.Threading.Tasks;
 namespace HallwayInfoPanelGMH {
   internal class Classroom {
 
-    int id;
-    string dispName;
-    public string currentPeople;
-    public string subject;
-    public string currentTeacher;
+    public int id { get;}
+    public string dispName { get;}
+    public string currentPeople {get;set;}
+    public string subject {get;set;}
+    public string currentTeacher {get;set;}
 
     public Classroom(int id, string dispName) {
       this.id = id;
       this.dispName = dispName;
+
     }
 
-    public void render() {
-      return;
-    }
+    public Classroom(int id, string dispName, string currentPeople, string subject, string currentTeacher) {
+      this.id = id;
+      this.dispName = dispName;
+      this.currentPeople = currentPeople;
+      this.subject = subject;
+      this.currentTeacher = currentTeacher;
 
   }
-}
+}}
