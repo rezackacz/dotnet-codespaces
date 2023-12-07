@@ -1,14 +1,20 @@
-﻿
+﻿using System.Linq;
+using System.Text.Json;
 
-using System.ComponentModel;
-using Microsoft.VisualBasic;
 
 namespace HallwayInfoPanelGMH {
   internal class Program {
 
+    const string bakaServerURL = "";
+    const string stravaCzURL = "https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059";
+
+
+
     static List<Classroom> classrooms = new List<Classroom>();
     static bool doWeWantClassrooms = true;
     static BakaDataGatherer? timeTableDownloader = null;
+
+    
 
     static void Main(string[] args) {
       try {
@@ -21,6 +27,7 @@ namespace HallwayInfoPanelGMH {
       int classroom_count;
       string[] classroom_dispNames;
       
+
 
       switch (args[0]) {
         case "prvni_patro":
@@ -62,9 +69,22 @@ namespace HallwayInfoPanelGMH {
       
 
 
-      var jidloStahovac = new CanteenMenuDownloader("https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059");
+      var jidloStahovac = new CanteenMenuDownloader(stravaCzURL);
 
       var foodRenderer = new HTMLRenderer(jidloStahovac);
+
+      BakaDataGatherer classroom_downloader = new BakaDataGatherer(classrooms, bakaServerURL);
+
+      HTMLRenderer classroomRenderer = new HTMLRenderer(classrooms, "classlist.html");
+
+
+      while (true){
+        jidloStahovac.update();
+        foodRenderer.Render();
+
+        classrooms = classroom_downloader.getClassrooms();
+        classroomRenderer.Render();
+      }
 
       return;
 

@@ -31,7 +31,7 @@ namespace HallwayInfoPanelGMH {
     }
 
 
-    public HTMLRenderer(Classroom[] classrooms, string htmlFileName) {
+    public HTMLRenderer(List<Classroom> classrooms, string htmlFileName) {
 
       this.type = DisplayTypes.CLASSROOM_LIST;
       this.htmlFileName = htmlFileName;
@@ -41,11 +41,13 @@ namespace HallwayInfoPanelGMH {
 
       List<string> rowsList = new List<string>();
       foreach (var classroom in classrooms) {
-        rowsList.Add()
+        rowsList.Add(classroom.toDivString());
       }
 
-
-
+      foreach (var divRow in rowsList) {
+        body += divRow;
+      }
+      body += "</div>";
 
     }
 
@@ -59,15 +61,17 @@ namespace HallwayInfoPanelGMH {
 
     }
 
-    public void Render() {
-      switch (type) {
-        case DisplayTypes.INFO: { break; }
-        case DisplayTypes.CLASSROOM_LIST: { break; }
-        case DisplayTypes.CANTEEN_MENU: { break; }
-        case DisplayTypes.WARNING: { break; }
-        case DisplayTypes.WEATHER: { break; }
-        case DisplayTypes.JOKE: { break; }
-      }
+    public void RenderAndSaveAsHTML(List<Classroom> classrooms) {
+      if (this.type != DisplayTypes.CLASSROOM_LIST) { Console.Error.WriteLine("předán nesprávný argument"); return; }
+
+      StringBuilder sb = new StringBuilder();
+      sb.Append(htmlBeginning);
+      sb.Append(CSS);
+      sb.Append(htmlMiddle);
+      sb.Append(body);
+      sb.Append(htmlEnding);
+
+      File.WriteAllText(htmlFileName, sb.ToString());
     }
   }
 }
