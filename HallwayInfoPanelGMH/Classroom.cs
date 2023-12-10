@@ -29,10 +29,10 @@ namespace HallwayInfoPanelGMH {
     }
 
 
-    public string toDivString() {
+    public string toDivRowString() {
       string result;
       result = "<div class=\"table-row\">";
-      result += "<div>" + this.dispName + "</div>";
+      result += "<div><b>" + this.dispName + "</b></div>";
       result += "<div>" + this.currentPeople + "</div>";
       result += "<div>" + this.subject + "</div>";
       result += "<div>" + this.currentTeacher + "</div>";

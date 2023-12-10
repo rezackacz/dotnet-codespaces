@@ -13,8 +13,6 @@ namespace HallwayInfoPanelGMH {
     private string body;
     private const string htmlEnding = "</body></html>";
 
-    private CanteenMenuDownloader canteenMenuDownloader;
-
     private string pageTitle;
     public string htmlFileName { get; }
 
@@ -23,6 +21,9 @@ namespace HallwayInfoPanelGMH {
     }
 
     public DisplayTypes type;
+
+
+    // constructors start
 
     public HTMLRenderer(DisplayTypes typ, string pageTitle, string body, string htmlFileName) {
       this.pageTitle = pageTitle;
@@ -36,12 +37,27 @@ namespace HallwayInfoPanelGMH {
       this.type = DisplayTypes.CLASSROOM_LIST;
       this.htmlFileName = htmlFileName;
 
+      this.RenderAndSaveAsHTML(classrooms);
+
+    }
+
+    public HTMLRenderer(CanteenMenuDownloader canteenMenuDownloader, string htmlFileName) {
+      this.type = DisplayTypes.CANTEEN_MENU;
+      this.htmlFileName= htmlFileName;
+
+      this.RenderAndSaveAsHTML(canteenMenuDownloader);
+    }
+
+    //constructors end
+
+    public void RenderAndSaveAsHTML(List<Classroom> classrooms) {
+      if (this.type != DisplayTypes.CLASSROOM_LIST) { Console.Error.WriteLine("předán nesprávný argument"); return; }
 
       body = "<div class=\"table-container\">";
 
       List<string> rowsList = new List<string>();
       foreach (var classroom in classrooms) {
-        rowsList.Add(classroom.toDivString());
+        rowsList.Add(classroom.toDivRowString());
       }
 
       foreach (var divRow in rowsList) {
@@ -49,20 +65,6 @@ namespace HallwayInfoPanelGMH {
       }
       body += "</div>";
 
-    }
-
-    public HTMLRenderer(CanteenMenuDownloader canteenMenuDownloader) {
-      this.type = DisplayTypes.CANTEEN_MENU;
-      this.canteenMenuDownloader = canteenMenuDownloader;
-
-      //TODO intialize the renderer to format a table with today's menu in the canteen
-
-
-
-    }
-
-    public void RenderAndSaveAsHTML(List<Classroom> classrooms) {
-      if (this.type != DisplayTypes.CLASSROOM_LIST) { Console.Error.WriteLine("předán nesprávný argument"); return; }
 
       StringBuilder sb = new StringBuilder();
       sb.Append(htmlBeginning);
@@ -73,5 +75,30 @@ namespace HallwayInfoPanelGMH {
 
       File.WriteAllText(htmlFileName, sb.ToString());
     }
+
+    public void RenderAndSaveAsHTML(CanteenMenuDownloader canteenMenuDownloader) {
+      if(this.type != DisplayTypes.CANTEEN_MENU) { Console.Error.WriteLine("předán nesprávný argument"); return; }
+
+      body = canteenMenuDownloader.toDivTableString();
+
+      StringBuilder sb = new StringBuilder();
+      sb.Append(htmlBeginning);
+      sb.Append(CSS);
+      sb.Append(htmlMiddle);
+      sb.Append(body);
+      sb.Append(htmlEnding);
+      File.WriteAllText(htmlFileName, sb.ToString());
+
+    }
+
+
+
+
+
+
+
+
+
+    
   }
 }
