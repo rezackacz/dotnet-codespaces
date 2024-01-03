@@ -34,9 +34,9 @@ namespace HallwayInfoPanelGMH {
     }
 
     // Filters the given XElement based on the specified food type and returns the filtered result.
-    private static Jidlo vyfiltruj(XElement today, string druh) {
+    private static Jidlo vyfiltruj (XElement today, string druh) {
       Jidlo vysledek = new Jidlo();
-      XElement xElement = today.Elements("jidlo").First(food => food.Attribute("druh").Value == druh);
+      XElement? xElement = today.Elements("jidlo").FirstOrDefault(food => food?.Attribute("druh")?.Value == druh);
       if (xElement == null) { throw new FoodNotAvailableException("Jidlo " + druh + "se nepodarilo ziskat"); } else {
         vysledek.druh = druh;
         vysledek.nazev = xElement.Attribute("nazev").Value;

@@ -3,31 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HallwayInfoPanelGMH {
-  internal class BakaDataGatherer {
+  public class BakaDataGatherer {
 
-    List<string> classroom_dispNames = new List<string>();
-
+    int classroom_count;
 
 
     public BakaDataGatherer(List<Classroom> classrooms, string bakaServerURL){
-      //TODO: dowload data from server
+      
+      XElement roomXML = XDocument.Load(bakaServerURL +"/b/common/rooms").Element("BakalariDataInterface");
+
+      XElement roomsXElement = roomXML.Elements().First(element => element.Name == "Rooms");
+
       
       foreach (Classroom classroom in classrooms){
-        classroom_dispNames.Add(classroom.dispName);
-        
+
+        classroom.bakaID = roomsXElement.Descendants().First(room => (room?.Element("Abbrev")?.Value) == classroom.dispName).Element("ID").Value;
+        classroom.roomURL = bakaServerURL + "/b/timetable/actual/room/" + classroom.bakaID;
         classroom.subject = "";
         classroom.currentTeacher = "";
         classroom.currentPeople = "";
 
-
+        classroom_count++;
       }
     }
 
     public List<Classroom> getClassrooms(){
-      return new List<Classroom>{};
-      //TODO: update and return the classooms defined in the constructor
+      List<Classroom> result = new();
+
+      
+
+      return result;
     }
   }
 }
