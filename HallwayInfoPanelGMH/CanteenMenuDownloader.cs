@@ -70,8 +70,8 @@ namespace HallwayInfoPanelGMH {
 
     private void download() {
       this.xml = XDocument.Load(URL);
-      XElement xNjidelnicek = (XElement)xml.FirstNode;
-      this.today = (XElement)xNjidelnicek.FirstNode;
+      XElement? xNjidelnicek = (XElement)xml.FirstNode;
+      this.today = (XElement)xNjidelnicek?.FirstNode;
 
       string date = DateTime.Now.ToString("dd-MM-yyyy");
 
