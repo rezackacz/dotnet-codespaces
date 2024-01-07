@@ -2,7 +2,7 @@
   "profiles": {
     "HallwayInfoPanelGMH": {
       "commandName": "Project",
-       "commandLineArgs": "prvni_patro"
+      "commandLineArgs": "C:\\Users\\Jachym\\infop-config.xml"
     }
   }
 }

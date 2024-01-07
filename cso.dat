@@ -13,3 +13,8 @@ V1
 1:1,HallwayInfoPanelGMH,B_,w_,f_
 2:getClassrooms,S
 2:result,C
+2:Main,b
+2:args,e
+2:config,g
+2:jidloStahovac,SJ
+2:foodRenderer,R

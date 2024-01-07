@@ -1,86 +1,50 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Text.Json;
+using System.Xml.Linq;
 
 
 namespace HallwayInfoPanelGMH {
   internal class Program {
 
-    const string bakaServerURL = "";
-    const string stravaCzURL = "https://www.strava.cz/strava5/Jidelnicky/XML?zarizeni=0059";
+    static string bakaServerURL;
+    static string stravaCzURL;
 
-
-
-    static List<Classroom> classrooms = new List<Classroom>();
+    static List<Classroom> classroomGroup1 = new List<Classroom>();
+    static List<Classroom> classroomGroup2 = new List<Classroom>();
+    static List<Classroom> classroomGroup3 = new List<Classroom>();
     static BakaDataGatherer? timeTableDownloader = null;
 
-    
+    static string htmlOutFolder;
 
     static void Main(string[] args) {
-      try {
-        string arg0 = args[0];
-      } catch {
-        Console.Error.WriteLine("Usage: HallwayInfoPanelGMH {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}");
-        return;
-      }
-      if (args[0] == "--help" || args[0] == "-h") { Console.Error.WriteLine("Usage: HallwayInfoPanelGMH.exe {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}"); return; }
-      int classroom_count;
-      string[] classroom_dispNames;
 
+      if (args.Length < 1) { Console.WriteLine("Použití: HallwayInfoPanelGMH (cesta k config souboru)"); return; }
 
+      XElement? config = XDocument.Load(args[0]).Element("InfopanelConfiguration");
+      if (config == null) { throw new FileNotFoundException("konfiguracni soubor se nepovedlo nacist."); }
 
-      switch (args[0]) {
-        case "prvni_patro":
-          //123,125,126,127,128,129,131
-          classroom_count = 6;
-          classroom_dispNames = new string[] { "123", "125", "126", "127", "128", "129", "131" };
-          for (int i = 0; i < classroom_count; i++) {
-            classrooms.Add(new Classroom(i, classroom_dispNames[i]));
-          }
-          timeTableDownloader = new BakaDataGatherer(classrooms, "http://co2.gmh.cz");
-          break;
-        case "druhe_patro_rovne":
-          //221,222,223,224,225
-          classroom_count = 5;
-          classroom_dispNames = new string[] { "221", "222", "223", "224", "225" };
-          for (int i = 0; i < classroom_count; i++) {
-            classrooms.Add(new Classroom(i, classroom_dispNames[i]));
-          }
-          timeTableDownloader = new BakaDataGatherer(classrooms, "http://co2.gmh.cz");
-          break;
-        case "druhe_patro_doprava":
-          //219, 217, 213, 211, 210
-          classroom_count = 5;
-          classroom_dispNames = new string[] { "219", "217", "213", "211", "210" };
-          for (int i = 0; i < classroom_count; i++) {
-            classrooms.Add(new Classroom(i, classroom_dispNames[i]));
-          }
-          timeTableDownloader = new BakaDataGatherer(classrooms, "http://co2.gmh.cz");
-          break;
-        default:
-          Console.Error.WriteLine("Usage: HallwayInfoPanelGMH {prvni_patro|druhe_patro_rovne|druhe_patro_doprava}");
-          break;
-
-      }
-      
-
+      stravaCzURL = config.Element("StravaURL").Value;
+      htmlOutFolder = config.Element("HTMLFileFolder").Value;
 
       var jidloStahovac = new CanteenMenuDownloader(stravaCzURL);
+      var foodRenderer = new HTMLRenderer(jidloStahovac, htmlOutFolder + "/jidelna.html");
 
-      //var foodRenderer = new HTMLRenderer();
+      bakaServerURL = config.Element("BakalariURL").Value;
 
-      BakaDataGatherer classroom_downloader = new BakaDataGatherer(classrooms, bakaServerURL);
-     
-
-      HTMLRenderer classroomRenderer = new HTMLRenderer(classrooms, "classlist.html");
+      
+        
 
 
-      while (true){
-        //jidloStahovac.update();
-        //foodRenderer.RenderAndSaveAsHTML(jidloStahovac);
 
-        classrooms = classroom_downloader.getClassrooms();
-        classroomRenderer.RenderAndSaveAsHTML(classroom_downloader.getClassrooms()) ;
-      }
+
+      //while (true) {
+      //  jidloStahovac.update();
+      //  foodRenderer.RenderAndSaveAsHTML(jidloStahovac);
+
+      //  classrooms = classroom_downloader.getClassrooms();
+      //  classroomRenderer.RenderAndSaveAsHTML(classroom_downloader.getClassrooms());
+      //}
 
       return;
 
