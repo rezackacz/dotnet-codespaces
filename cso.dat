@@ -18,3 +18,14 @@ V1
 2:config,g
 2:jidloStahovac,SJ
 2:foodRenderer,R
+2:Program,w7
+2:stravaCzURL,Z
+2:timeTableDownloader,C4
+2:htmlOutFolder,M
+2:XElementClsGroups,q
+2:ListClsGroups,k
+2:Gatherers,MJ
+2:Renderers,d
+2:XElementClsGroup,p
+2:ListClsGroup,s
+2:XElementCls,E

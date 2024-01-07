@@ -59,9 +59,9 @@ namespace HallwayInfoPanelGMH {
       foreach (var classroom in classrooms) {
         rowsList.Add(classroom.toDivRowString());
       }
-
       foreach (var divRow in rowsList) {
         body += divRow;
+        body += "</div>";
       }
       body += "</div>";
 
@@ -90,15 +90,5 @@ namespace HallwayInfoPanelGMH {
       File.WriteAllText(htmlFileName, sb.ToString());
 
     }
-
-
-
-
-
-
-
-
-
-    
   }
 }
