@@ -25,7 +25,7 @@ namespace HallwayInfoPanelGMH {
       htmlOutFolder = config.Element("HTMLFileFolder").Value;
 
       var jidloStahovac = new CanteenMenuDownloader(stravaCzURL);
-      var foodRenderer = new HTMLRenderer(jidloStahovac, htmlOutFolder + "/jidelna.html");
+      var foodRenderer = new HTMLRenderer(jidloStahovac, htmlOutFolder + "/jidelna.html", "Jídelníček");
 
       bakaServerURL = config.Element("BakalariURL").Value;
 
@@ -43,14 +43,16 @@ namespace HallwayInfoPanelGMH {
         }
 
         Gatherers.Add(new(ListClsGroup, bakaServerURL));
-        Renderers.Add(new(ListClsGroup, htmlOutFolder + "classroomGroup" + XElementClsGroup.Element("index").Value + ".html"));
+        Renderers.Add(new(ListClsGroup, htmlOutFolder + "classroomGroup" + XElementClsGroup.Element("index").Value + ".html", "Aktuální rozvrh"));
 
         ListClsGroups.Add(ListClsGroup);
       }
 
-
+      Console.WriteLine("First render finished at:" + DateTime.Now);
 
       while (true) {
+        System.Threading.Thread.Sleep(10000);
+
         jidloStahovac.update();
         foodRenderer.RenderAndSaveAsHTML(jidloStahovac);
 
@@ -60,7 +62,7 @@ namespace HallwayInfoPanelGMH {
 
         Console.WriteLine("Render finished at:" + DateTime.Now);
 
-        System.Threading.Thread.Sleep(10000);
+        
       }
 
 
