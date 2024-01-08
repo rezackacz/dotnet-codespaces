@@ -9,7 +9,7 @@
             "name": "C#: HallwayInfoPanelGMH Debug",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/HallwayInfoPanelGMH/HallwayInfoPanelGMH.csproj"
+            "projectPath": "${workspaceFolder}/HallwayInfoPanelGMH/HallwayInfoPanelGMH.csproj",
             "args" : "prvni_patro"
         }
 
