@@ -8,7 +8,7 @@ namespace HallwayInfoPanelGMH {
   class HTMLRenderer {
 
     private const string htmlBeginning = "<!DOCTYPE html><html><head><title>GMH Infopanel</title><meta charset=\"UTF-16\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style>";
-    private const string CSS = "body { font-family: Segoe UI, Arial, sans-serif;} .table-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px;} .table-row { display: flex; justify-content: space-between; width: 100%; border-bottom: 1px solid #ccc; padding: 10px 0;}";
+    private const string CSS = "body { font-family: Segoe UI, Arial, sans-serif; font-size: 3.5vw;} .table-container { display: flex; flex-direction: column; align-items: center; margin-top: 5px;} .table-row { display: flex; justify-content: space-between; width: 100%; border-bottom: 1px solid #ccc; padding: 10px 0;} .title { text-align:center; font-weight:bold}";
     private const string htmlMiddle = "</style></head><body>";
     private string body;
     private const string htmlEnding = "</body></html>";
@@ -32,18 +32,22 @@ namespace HallwayInfoPanelGMH {
     }
 
 
-    public HTMLRenderer(List<Classroom> classrooms, string htmlFileName) {
+    public HTMLRenderer(List<Classroom> classrooms, string htmlFileName, string pageTitle) {
 
       this.type = DisplayTypes.CLASSROOM_LIST;
       this.htmlFileName = htmlFileName;
+
+      this.pageTitle = pageTitle;
 
       this.RenderAndSaveAsHTML(classrooms);
 
     }
 
-    public HTMLRenderer(CanteenMenuDownloader canteenMenuDownloader, string htmlFileName) {
+    public HTMLRenderer(CanteenMenuDownloader canteenMenuDownloader, string htmlFileName, string pageTitle) {
       this.type = DisplayTypes.CANTEEN_MENU;
       this.htmlFileName= htmlFileName;
+
+      this.pageTitle = pageTitle;
 
       this.RenderAndSaveAsHTML(canteenMenuDownloader);
     }
@@ -53,7 +57,7 @@ namespace HallwayInfoPanelGMH {
     public void RenderAndSaveAsHTML(List<Classroom> classrooms) {
       if (this.type != DisplayTypes.CLASSROOM_LIST) { Console.Error.WriteLine("předán nesprávný argument"); return; }
 
-      body = "<div class=\"table-container\">";
+      body = "<div class=\"title\">"+pageTitle+"</div><div class=\"table-container\">";
 
       List<string> rowsList = new List<string>();
       foreach (var classroom in classrooms) {
@@ -79,7 +83,8 @@ namespace HallwayInfoPanelGMH {
     public void RenderAndSaveAsHTML(CanteenMenuDownloader canteenMenuDownloader) {
       if(this.type != DisplayTypes.CANTEEN_MENU) { Console.Error.WriteLine("předán nesprávný argument"); return; }
 
-      body = canteenMenuDownloader.toDivTableString();
+      body = "<div class=\"title\">" + pageTitle + "</div>";
+      body += canteenMenuDownloader.toDivTableString();
 
       StringBuilder sb = new StringBuilder();
       sb.Append(htmlBeginning);
