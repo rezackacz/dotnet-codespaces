@@ -55,9 +55,12 @@ namespace HallwayInfoPanelGMH {
         foodRenderer.RenderAndSaveAsHTML(jidloStahovac);
 
         foreach (var gatherer in Gatherers) {
-
+          Renderers[Gatherers.IndexOf(gatherer)].RenderAndSaveAsHTML(gatherer.getClassrooms());
         }
-        //  classroomRenderer.RenderAndSaveAsHTML(classroom_downloader.getClassrooms());
+
+        Console.WriteLine("Render finished at:" + DateTime.Now);
+
+        System.Threading.Thread.Sleep(10000);
       }
 
 

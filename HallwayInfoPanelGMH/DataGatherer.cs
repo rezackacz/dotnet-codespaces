@@ -39,9 +39,9 @@ namespace HallwayInfoPanelGMH {
         }
         if (HourNow == null) { classroom.currentPeople = " "; classroom.subject = "Neučí se."; classroom.currentTeacher = " "; }
         else {
-          classroom.currentPeople = HourNow.Element("Class").Element("Abbrev").Value;
-          classroom.subject = HourNow.Element("Subject").Element("Abbrev").Value;
-          classroom.currentTeacher = HourNow.Element("Teacher").Element("Abbrev").Value;
+          classroom.currentPeople = HourNow.Element("Class")?.Element("Abbrev")?.Value;
+          classroom.subject = HourNow.Element("Subject")?.Element("Abbrev")?.Value == null ? "Neučí se." : HourNow.Element("Subject")?.Element("Abbrev")?.Value;
+          classroom.currentTeacher = HourNow.Element("Teacher")?.Element("Abbrev")?.Value;
         }
 
       }
@@ -64,9 +64,9 @@ namespace HallwayInfoPanelGMH {
           continue;
         }
         if (HourNow == null) { classroom.currentPeople = " "; classroom.subject = "Neučí se."; classroom.currentTeacher = " "; } else {
-          classroom.currentPeople = HourNow.Element("Class").Element("Abbrev").Value;
-          classroom.subject = HourNow.Element("Subject").Element("Abbrev").Value;
-          classroom.currentTeacher = HourNow.Element("Teacher").Element("Abbrev").Value;
+          classroom.currentPeople = HourNow.Element("Class")?.Element("Abbrev")?.Value;
+          classroom.subject = HourNow.Element("Subject")?.Element("Abbrev")?.Value == null ? "Neučí se." : HourNow.Element("Subject")?.Element("Abbrev")?.Value;
+          classroom.currentTeacher = HourNow.Element("Teacher")?.Element("Abbrev")?.Value;
         }
       }
       result = classooms_copy;
