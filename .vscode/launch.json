@@ -10,7 +10,6 @@
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/HallwayInfoPanelGMH/HallwayInfoPanelGMH.csproj",
-            "args" : "prvni_patro"
         }
 
 
